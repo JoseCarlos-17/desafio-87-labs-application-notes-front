@@ -4,9 +4,9 @@ Interface web do desafio técnico **desafio-87-blue-application-notes-front** em
 
 - **criar** notas (formulário com tratamento de **`422`** retornado pela API);
 - **listar** notas em tabela com **paginação** (Previous / Next e “Page X of Y”);
-- **filtrar** por trecho do **título**, enviando o termo como query string em **`GET /notes`**.
+- **filtrar** por **título**, enviando o termo como query string em **`GET /notes`**.
 
-A camada HTTP usa **Axios**, centralizada em **`src/axios.js`**, com **`baseURL`** apontando para a API (por padrão **`http://localhost:3000`**). A coluna **Created** formata `created_at` com **date-fns**.
+A camada HTTP usa **Axios**, centralizada em **`src/axios.js`**, com **`baseURL`** apontando para a API (por padrão **`http://localhost:3000`**). O atributo `created_at` das notas criadas é formatado com **date-fns**.
 
 ---
 
@@ -15,17 +15,15 @@ A camada HTTP usa **Axios**, centralizada em **`src/axios.js`**, com **`baseURL`
 | Item | Uso |
 |------|-----|
 | Vue 3 | Interface e reatividade |
-| Vue CLI 5 | Dev server e build de produção |
 | Axios | Cliente HTTP |
 | date-fns | Formatação de datas |
-| ESLint | Lint de `.vue` e `.js` |
 
 ---
 
 ## Pré-requisitos
 
 - **Node.js** (LTS recomendado).
-- O repositório inclui **`yarn.lock`** — recomenda-se **`yarn install`**. **npm** também funciona (`npm install`).
+- O repositório inclui **`yarn.lock`** — recomenda-se **`yarn install`**.
 - A API deve estar acessível na URL configurada em **`src/axios.js`** (padrão **`http://localhost:3000`**). O Vue CLI costuma servir o front em **`http://localhost:8080`**; a API deve permitir essa origem em **CORS**.
 
 ---
@@ -38,35 +36,23 @@ Na raiz do projeto:
 yarn install
 ```
 
-Alternativa:
-
-```bash
-npm install
-```
-
----
-
 ## Execução
 
 | Comando | Descrição |
 |---------|-----------|
 | `yarn serve` | Servidor de desenvolvimento com hot-reload (porta padrão **8080**; outra porta se 8080 estiver ocupada). |
-| `yarn build` | Build de produção em **`dist/`**. |
-| `yarn lint` | ESLint no código-fonte. |
 
 Com npm:
 
 ```bash
 npm run serve
-npm run build
-npm run lint
 ```
 
 ---
 
 ## Endpoints HTTP utilizados
 
-Caminhos são relativos à **`baseURL`** do Axios (ex.: `http://localhost:3000`). JSON em **snake_case**, alinhado à API Rails.
+Caminhos são relativos à **`baseURL`** que consta no arquivo "src/axios.js", `http://localhost:3000`. JSON em **snake_case**, alinhado à API Rails.
 
 ### `GET /notes`
 
@@ -76,7 +62,6 @@ Listagem paginada; filtro opcional por título.
 |--------|--------|
 | **Método** | `GET` |
 | **Path** | `/notes` |
-| **Request body** | *Não há corpo* (`GET`). |
 
 **Query string** (como o front envia):
 
@@ -121,7 +106,6 @@ Criação de nota.
 |--------|--------|
 | **Método** | `POST` |
 | **Path** | `/notes` |
-| **Query string** | *(não usado pelo front)* |
 
 **Request body** (JSON):
 
@@ -157,6 +141,14 @@ Exemplo de **`response_body`** em **422**:
 ```json
 {
   "error": "Validation failed: Title is too short (minimum is 5 characters)"
+}
+```
+
+caso tente enviar uma nota sem título:
+
+```json
+{
+  "error": "Title can't be blank"
 }
 ```
 
