@@ -28,6 +28,13 @@
     <div class="divider"></div>
 
     <section>
+      <input
+        class="notes-filter"
+        type="text"
+        v-model="titleFilter"
+        placeholder="Search by title"
+      />
+      <button type="button" @click="filterNotes">Search</button>
       <div id="notes-list">
         <table>
           <caption>Notes</caption>
@@ -92,11 +99,29 @@
   const totalPages = ref(0);
   const perPage = 10;
   const notes = ref([]);
+  const titleFilter = ref('');
+
+  const filterNotes = () => {
+    instance
+      .get('/notes', {
+        params: {
+          title: titleFilter.value
+        }
+      }).then((response) => {
+        const data = response.data;
+        notes.value = data.notes || [];
+        currentPage.value = data.current_page || 1;
+        totalPages.value = data.total_pages || 0;
+      })
+  }
 
   const getNotes = () => {
     instance
       .get('/notes', {
-        params: { page: currentPage.value, limit: perPage }
+        params: {
+          page: currentPage.value,
+          limit: perPage,
+        }
       })
       .then((response) => {
         const data = response.data;
@@ -174,6 +199,10 @@
     padding: 8px;
     border-radius: 4px;
     border: 1px solid grey;
+  }
+
+  #app .notes-filter {
+    margin: -20px 10px 30px 0px;
   }
 
   #app table {
