@@ -34,7 +34,9 @@
         v-model="titleFilter"
         placeholder="Search by title"
       />
-      <button type="button" @click="filterNotes">Search</button>
+      <button class="search-button" type="button" @click="filterNotes">
+        Search
+      </button>
       <div id="notes-list">
         <table>
           <caption>Notes</caption>
@@ -201,6 +203,15 @@
     border: 1px solid grey;
   }
 
+  #app .search-button {
+    border-radius: 4px;
+    border: 1px solid #64748b;
+    padding: 10px 15px 10px 15px;
+    background: #fff;
+    color: #2c3e50;
+    cursor: pointer;
+  }
+
   #app .notes-filter {
     margin: -20px 10px 30px 0px;
   }
@@ -256,6 +267,15 @@
 
   #app .note-content-field label {
     margin: 0px 0px 0px -100px;
+  }
+
+  #app .submit-button-field button {
+    border-radius: 4px;
+    border: 1px solid #64748b;
+    padding: 10px 15px 10px 15px;
+    background: #fff;
+    color: #2c3e50;
+    cursor: pointer;
   }
 
   #app .form-error {
